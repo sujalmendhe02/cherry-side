@@ -1,6 +1,12 @@
+//checkout.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart, getCartTotal, clearCart } from "../services/cart";
+import { getCart, getCartTotal, clearCart } from "../../services/cart";
+
+const API_URL = import.meta.env.VITE_GOOGLE_SHEETS_API_URL;
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+const UPI_ID = import.meta.env.VITE_UPI_ID;
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -13,6 +19,7 @@ export default function Checkout() {
     email: "",
     phone: "",
     address: "",
+    transactionId: "",
   });
 
   const [screenshot, setScreenshot] = useState(null);
@@ -36,15 +43,14 @@ export default function Checkout() {
     });
   };
 
-  // UPLOAD SCREENSHOT TO CLOUDINARY
   const uploadScreenshot = async () => {
     const data = new FormData();
 
     data.append("file", screenshot);
-    data.append("upload_preset", "YOUR_UPLOAD_PRESET");
+    data.append("upload_preset", UPLOAD_PRESET);
 
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
       {
         method: "POST",
         body: data,
@@ -56,10 +62,8 @@ export default function Checkout() {
   };
 
   const handlePayment = () => {
-    const upiId = "YOUR_UPI_ID";
-
     const upiLink =
-      `upi://pay?pa=${upiId}` +
+      `upi://pay?pa=${UPI_ID}` +
       `&pn=Gift Store` +
       `&am=${total}` +
       `&cu=INR`;
@@ -75,6 +79,7 @@ export default function Checkout() {
       !formData.email ||
       !formData.phone ||
       !formData.address ||
+      !formData.transactionId ||
       !screenshot
     ) {
       alert("Please fill all fields & upload screenshot");
@@ -86,6 +91,7 @@ export default function Checkout() {
       const orderId = `ORD${Date.now()}`;
 
       const orderData = {
+        type: "order", 
         orderId,
         customerName: formData.customerName,
         email: formData.email,
@@ -97,21 +103,20 @@ export default function Checkout() {
           .join(", "),
 
         total,
+        transactionId: formData.transactionId,
         paymentScreenshot: screenshotUrl,
         orderDate: new Date().toLocaleString(),
         status: "Pending",
       };
 
-      await fetch(
-        "https://script.google.com/macros/s/AKfycby26m45Fi1BNqljjisVdz894yLeV1v1fKrV1Q5DUveHtqg5J0spPQM-GVNsCT-TawQQ/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        }
-      );
+      await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "no-cors",
+        body: JSON.stringify(orderData),
+      });
 
       clearCart();
 
@@ -127,7 +132,6 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8">
-
         {/* ORDER SUMMARY */}
         <div className="bg-white rounded-xl shadow-md p-6">
           <h2 className="text-2xl font-bold mb-5">
@@ -152,7 +156,7 @@ export default function Checkout() {
 
           <button
             onClick={handlePayment}
-            className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold"
+            className="w-full mt-6 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
           >
             Pay ₹{total}
           </button>
@@ -165,14 +169,14 @@ export default function Checkout() {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             <input
               type="text"
               name="customerName"
               placeholder="Full Name"
               value={formData.customerName}
               onChange={handleChange}
-              className="w-full border p-3 rounded-lg"
+              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+              required
             />
 
             <input
@@ -181,7 +185,8 @@ export default function Checkout() {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full border p-3 rounded-lg"
+              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+              required
             />
 
             <input
@@ -190,7 +195,8 @@ export default function Checkout() {
               placeholder="Phone Number"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full border p-3 rounded-lg"
+              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+              required
             />
 
             <textarea
@@ -199,24 +205,33 @@ export default function Checkout() {
               rows="4"
               value={formData.address}
               onChange={handleChange}
-              className="w-full border p-3 rounded-lg"
+              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+              required
             />
-
+            <input
+              type="text"
+              name="transactionId"
+              placeholder="Transaction ID / UTR Number"
+              value={formData.transactionId}
+              onChange={handleChange}
+              className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+              required
+            />
             {/* SCREENSHOT UPLOAD */}
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setScreenshot(e.target.files[0])}
-              className="w-full border p-3 rounded-lg"
+              className="w-full border border-gray-300 p-3 rounded-lg"
+              required
             />
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg font-semibold"
+              className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
               Place Order
             </button>
-
           </form>
         </div>
       </div>

@@ -1,0 +1,342 @@
+/* =========================
+   GLOBAL FIX
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.cherry-collections-section {
+  width: 100%;
+  max-width: 1280px;
+  margin: 100px auto;
+  padding-inline: 40px;
+  background-color: #ffffff;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.cherry-grid-header {
+  text-align: center;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cherry-pre-title {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #7A0016;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cherry-grid-title {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  color: #1a1a1a;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.cherry-header-line {
+  width: 50px;
+  height: 1px;
+  background-color: #7A0016;
+  margin-top: 20px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.cherry-arch-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 30px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.cherry-arch-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  min-width: 0;
+}
+
+.cherry-arch-card.card-variant-1 {
+  transform: translateY(25px);
+}
+
+.cherry-arch-card.card-variant-2 {
+  transform: translateY(-10px);
+}
+
+.cherry-arch-image-wrapper {
+  width: 100%;
+  height: 380px;
+  border-top-left-radius: 160px;
+  border-top-right-radius: 160px;
+  overflow: hidden;
+  position: relative;
+  background-color: #fbf9f6;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+}
+
+.cherry-arch-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.cherry-arch-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(122, 0, 22, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cherry-view-arrow {
+  color: #fff;
+  font-size: 28px;
+  background: #7A0016;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform: scale(0.8);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================
+   HOVER
+========================= */
+
+.cherry-arch-card:hover {
+  transform: translateY(-5px);
+}
+
+.cherry-arch-card:hover .cherry-arch-img {
+  transform: scale(1.06);
+}
+
+.cherry-arch-card:hover .cherry-arch-overlay {
+  opacity: 1;
+}
+
+.cherry-arch-card:hover .cherry-view-arrow {
+  transform: scale(1);
+}
+
+/* =========================
+   DETAILS
+========================= */
+
+.cherry-arch-details {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cherry-arch-name {
+  font-family: "Playfair Display", serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.cherry-arch-count {
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.cherry-grid-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.cherry-view-all-collections-btn {
+  background: transparent;
+  color: #7A0016;
+  border: 1px solid #7A0016;
+  padding: 15px 40px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cherry-view-all-collections-btn:hover {
+  background: #7A0016;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(122, 0, 22, 0.12);
+}
+
+/* =========================
+   LAPTOP
+========================= */
+
+@media (max-width: 1200px) {
+  .cherry-arch-grid-container {
+    gap: 30px 20px;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .cherry-collections-section {
+    padding-inline: 24px;
+    margin: 80px auto;
+  }
+
+  .cherry-grid-title {
+    font-size: 30px;
+  }
+
+  .cherry-arch-grid-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cherry-arch-card.card-variant-1,
+  .cherry-arch-card.card-variant-2 {
+    transform: none;
+  }
+
+  .cherry-arch-image-wrapper {
+    height: 340px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .cherry-collections-section {
+    padding-inline: 16px;
+    margin: 60px auto;
+  }
+
+  .cherry-grid-header {
+    margin-bottom: 40px;
+  }
+
+  .cherry-grid-title {
+    font-size: 26px;
+  }
+
+  .cherry-pre-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .cherry-arch-grid-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .cherry-arch-image-wrapper {
+    height: 320px;
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+  }
+
+  .cherry-grid-footer {
+    margin-top: 50px;
+  }
+
+  .cherry-view-all-collections-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .cherry-collections-section {
+    padding-inline: 12px;
+    margin: 50px auto;
+  }
+
+  .cherry-grid-title {
+    font-size: 22px;
+  }
+
+  .cherry-arch-image-wrapper {
+    height: 280px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+  }
+
+  .cherry-arch-name {
+    font-size: 16px;
+  }
+
+  .cherry-arch-count {
+    font-size: 11px;
+  }
+
+  .cherry-view-arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+  }
+
+  .cherry-view-all-collections-btn {
+    width: 100%;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}

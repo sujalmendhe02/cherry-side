@@ -1,13 +1,10 @@
-const API_URL =
-  "https://script.google.com/macros/s/AKfycby26m45Fi1BNqljjisVdz894yLeV1v1fKrV1Q5DUveHtqg5J0spPQM-GVNsCT-TawQQ/exec";
+//googlesheets.js
 
-// Get Products
+const API_URL = import.meta.env.VITE_GOOGLE_SHEETS_API_URL;
+console.log(API_URL);
 export const fetchProducts = async () => {
   try {
-    const res = await fetch(
-      `${API_URL}?sheet=Products`
-    );
-
+    const res = await fetch(`${API_URL}?sheet=Products`);
     return await res.json();
   } catch (error) {
     console.error(error);
@@ -16,15 +13,12 @@ export const fetchProducts = async () => {
 };
 
 // Save Order
-export const saveOrder = async (
-  orderData
-) => {
+export const saveOrder = async (orderData) => {
   try {
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
-        "Content-Type":
-          "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(orderData),
     });

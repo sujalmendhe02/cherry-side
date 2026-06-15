@@ -1,0 +1,254 @@
+/* =========================
+   GLOBAL FIX (IMPORTANT)
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* =========================
+   HERO STAGE
+========================= */
+
+.cherry-hero-stage {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  min-height: 500px;
+  background-color: #1a1515;
+  overflow: hidden;
+}
+
+/* =========================
+   SLIDES
+========================= */
+
+.cherry-hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+  z-index: 1;
+}
+
+.cherry-hero-slide.slide-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* image */
+.cherry-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  transform: scale(1);
+  transition: transform 5s ease;
+}
+
+.cherry-hero-slide.slide-active .cherry-hero-img {
+  transform: scale(1.05);
+}
+
+/* =========================
+   CAPTION
+========================= */
+
+.cherry-hero-caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 24px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.35));
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.cherry-hero-title {
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: 0.8s ease;
+}
+
+.cherry-hero-subtitle {
+  color: #f3eae6;
+  font-size: 15px;
+  max-width: 580px;
+  margin-bottom: 35px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.8s ease;
+}
+
+/* button */
+.cherry-hero-btn {
+  background: #fff;
+  color: #7A0016;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  padding: 16px 42px;
+  border-radius: 40px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: 0.3s ease;
+}
+
+.cherry-hero-btn:hover {
+  background: #7A0016;
+  color: #fff;
+}
+
+/* active animation */
+.cherry-hero-slide.slide-active .cherry-hero-title,
+.cherry-hero-slide.slide-active .cherry-hero-subtitle,
+.cherry-hero-slide.slide-active .cherry-hero-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   INDICATORS
+========================= */
+
+.cherry-luxury-indicators {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.indicator-track-line {
+  width: 50px;
+  height: 2px;
+  background: rgba(255,255,255,0.25);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.indicator-progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: #fff;
+}
+
+.indicator-track-line.track-active .indicator-progress-fill {
+  width: 100%;
+  transition: width 3s linear;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .cherry-hero-stage {
+    height: 70vh;
+    min-height: 450px;
+  }
+
+  .cherry-hero-title {
+    font-size: 42px;
+  }
+
+  .cherry-hero-subtitle {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .cherry-hero-stage {
+    height: 65vh;
+    min-height: 400px;
+  }
+
+  .cherry-hero-title {
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+
+  .cherry-hero-subtitle {
+    font-size: 13px;
+    max-width: 90%;
+  }
+
+  .cherry-hero-btn {
+    padding: 14px 28px;
+    font-size: 11px;
+  }
+
+  .cherry-luxury-indicators {
+    bottom: 22px;
+    gap: 8px;
+  }
+
+  .indicator-track-line {
+    width: 35px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .cherry-hero-stage {
+    height: 60vh;
+    min-height: 350px;
+  }
+
+  .cherry-hero-title {
+    font-size: 24px;
+  }
+
+  .cherry-hero-subtitle {
+    font-size: 12px;
+  }
+
+  .cherry-hero-btn {
+    width: 100%;
+    max-width: 260px;
+    font-size: 10px;
+  }
+
+  .indicator-track-line {
+    width: 25px;
+  }
+}
