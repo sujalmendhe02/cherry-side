@@ -110,10 +110,10 @@ export default function Policies() {
             </p>
 
             <ul className="mt-4 space-y-2 text-[#5a3a3a]">
-              <li>• Video must start before opening the package.</li>
-              <li>• Package seal must be clearly visible.</li>
-              <li>• No cuts, edits, pauses, or filters allowed.</li>
-              <li>• Damaged product must be clearly shown.</li>
+              <li>Video must start before opening the package.</li>
+              <li>Package seal must be clearly visible.</li>
+              <li>No cuts, edits, pauses, or filters allowed.</li>
+              <li>Damaged product must be clearly shown.</li>
             </ul>
 
             <p className="mt-4 text-[#5a3a3a]">

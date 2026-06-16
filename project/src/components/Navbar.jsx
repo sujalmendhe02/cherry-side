@@ -1,8 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const giftCategories = [
     "Curated Hampers",
@@ -11,6 +14,11 @@ export default function Navbar() {
     "Custom Ribbons",
     "Scrunchies & Clips"
   ];
+
+  // Jab bhi route change hoga, mobile menu automatic close ho jayega
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
 
   return (
     <header className="cherry-luxury-header">
@@ -38,8 +46,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Center Menu */}
-        <div className="cherry-links-hub">
+        {/* Center Menu (CSS ke dynamic class 'mobile-open' ke sath linked) */}
+        <div className={`cherry-links-hub ${isMenuOpen ? "mobile-open" : ""}`}>
+          
+          {/* Mobile view ke liye close button menu ke andar */}
+          {isMenuOpen && (
+            <button 
+              className="cherry-mobile-toggle" 
+              style={{ alignSelf: "flex-end", marginBottom: "20px" }}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" width="28" height="28">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
 
           <button className="cherry-menu-item" onClick={() => navigate("/")}>
             HOME
@@ -72,14 +93,13 @@ export default function Navbar() {
             OUR STORY
           </button>
 
-          {/* FIXED */}
           <button className="cherry-menu-item" onClick={() => navigate("/policies")}>
             POLICIES
           </button>
 
         </div>
 
-        {/* Right Icons (ONLY USER + CART, SEARCH REMOVED) */}
+        {/* Right Icons */}
         <div className="cherry-utils-group">
 
           {/* Contact */}
@@ -106,14 +126,24 @@ export default function Navbar() {
           </button>
 
           {/* Cart */}
-          <button className="cherry-icon-btn" onClick={() => navigate("/cart")}>
+          <button className="cherry-icon-btn" style={{ position: "relative" }} onClick={() => navigate("/cart")}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
               viewBox="0 0 24 24" stroke="currentColor" width="22" height="22">
               <path strokeLinecap="round" strokeLinejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.3-1.9 1.2 12a1.1 1.1 0 0 1-1.1 1.2H4.2a1.1 1.1 0 0 1-1.1-1.2l1.2-12" />
+                strokeWidth="1.5" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.3-1.9 1.2 12a1.1 1.1 0 0 1-1.1 1.2H4.2a1.1 1.1 0 0 1-1.1-1.2l1.2-12" />
             </svg>
-
             <span className="cherry-cart-badge">0</span>
+          </button>
+
+          {/* Hamburger Menu Trigger Button (Mobile Par Dikhega) */}
+          <button 
+            className="cherry-mobile-toggle"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" width="24" height="24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
           </button>
 
         </div>
